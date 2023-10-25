@@ -17,18 +17,22 @@ export default ExamPage = () => {
           <Drawer drawerActive={SideDrawerOpen} setSideDrawerOpen={setSideDrawerOpen} />
           </View>  }
           <View style={ExamContentStyle.ContentContainer}>
-            <TouchableNativeFeedback  style={{ borderRadius : 40 }}>
+            <View style={ExamContentStyle.ExamOptionContainer}>
+              <TouchableNativeFeedback  style={{ borderRadius : 40 }}>
                 <View style={ExamContentStyle.ExamOption}>
                     <Icon name={'images'} />
                     <Text>آزمون تصویری</Text>
                 </View>
             </TouchableNativeFeedback>
-             <TouchableNativeFeedback style={{ borderRadius : 40 }}>
-                <View style={ExamContentStyle.ExamOption}>
-                  <Icon name={'Video'} />
-                  <Text>آزمون ویدیویی</Text>
-                </View>
-             </TouchableNativeFeedback>
+            </View>
+            <View style={ExamContentStyle.ExamOptionContainer}>
+              <TouchableNativeFeedback style={{ borderRadius : 40 }}>
+                  <View style={ExamContentStyle.ExamOption}>
+                    <Icon name={'Video'} />
+                    <Text>آزمون ویدیویی</Text>
+                  </View>
+              </TouchableNativeFeedback>
+            </View>
              
           </View>
       </View>
@@ -45,6 +49,10 @@ const ExamContentStyle = StyleSheet.create({
         marginTop : 20,
         gap : 15
     },
+    ExamOptionContainer : {
+      borderRadius : 40,
+      overflow : 'hidden'
+    } ,
     ExamOption : {
       width : 350,
       height : 75,

@@ -27,6 +27,13 @@ export const Icon = ({ name }) => {
         signLang : require('../../assets/icons/signLang.png'),
         characters : require('../../assets/icons/characters.png'),
         close : require('../../assets/icons/close.png'),
+        math : require('../../assets/icons/math.png'),
+        human : require('../../assets/icons/human.png'),
+        handsshadow : require('../../assets/icons/handsshadow.png'),
+        earth : require('../../assets/icons/earth.png'),
+        clock : require('../../assets/icons/clock.png'),
+        animals : require('../../assets/icons/animals.png'),
+        Walphabets : require('../../assets/icons/Walphabets.png'),
       };
   return (
     <Image
