@@ -1,22 +1,41 @@
-import { Image, StyleSheet, Text, ImageBackground , View, Button, Alert, StatusBar } from "react-native"
+import { Image, StyleSheet, Text, ImageBackground , View, Button, Alert, StatusBar, Easing } from "react-native"
 import { Icon } from "./Icon";
 import { Link, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { HeaderStyles } from "../../styles/HeaderStyle";
 import { TextInput } from "react-native";
 import * as Animatable from 'react-native-animatable';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Animated } from "react-native";
 
 const HeaderComponent = ({ setSideDrawerOpen , headerText }) => {
     const router = useRouter();
+    const [inputWidth] = useState(new Animated.Value(0));
     const [ searchOpen , setSearchOpen ] = useState(false);
+    useEffect(() => {
+        if(searchOpen) {
+            Animated.timing(inputWidth, {
+                toValue: 0,
+                duration: 600, 
+                useNativeDriver: false,
+              }).start();
+        }
+        else {
+            Animated.timing(inputWidth, {
+                toValue: 1,
+                duration: 600, 
+                useNativeDriver: false,
+              }).start();
+        }
+      },[searchOpen])
     const [loaded] = useFonts({
         'IRANSANS' : require('../../assets/fonts/GlobalFont.ttf'),
       });
-    
       if (!loaded) {
         return null;
       }
+
+ 
     return <View style={HeaderStyles.container} >
         <StatusBar
         animated={true}
@@ -33,7 +52,13 @@ const HeaderComponent = ({ setSideDrawerOpen , headerText }) => {
                     alignItems : "flex-end" , justifyContent : 'center' ,
                     flexDirection : 'row'
                      }}>
-                   { searchOpen && <Animatable.View animation={'fadeIn'}>
+                   { searchOpen && <Animated.View style={{
+                        width: inputWidth.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [ 100 , 10 ],
+                        }),
+                        marginRight : 10,
+                   }}>
                         <TextInput style={{
                             backgroundColor : 'white' 
                             , width : 100 , 
@@ -46,7 +71,7 @@ const HeaderComponent = ({ setSideDrawerOpen , headerText }) => {
                             textAlign : "right" ,
                             marginRight : 10
                             }} placeholder='جستجو' />
-                    </Animatable.View>}
+                    </Animated.View>}
                     <View onTouchEnd={() => setSearchOpen(!searchOpen)}>
                         <Icon name={searchOpen ? 'close' : 'Search'} />    
                     </View>

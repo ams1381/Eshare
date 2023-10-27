@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from "react-native"
+import { Alert, Animated, Easing, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from "react-native"
 import { useEffect, useState } from "react";
 import { BottomTabBar } from "../../components/common/Tabbar";
 import HeaderComponent from "../../components/common/Header";
@@ -20,6 +20,17 @@ export default ExamPage = () => {
     { key: '7', label: 'اشاره های مهرورزان' , icon : 'handsshadow' },
   ];
     const [ SideDrawerOpen , setSideDrawerOpen ] = useState(false);
+    const [fadeAnim] = useState(new Animated.Value(100));
+
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0, 
+        duration: 600, 
+        easing: Easing.inOut(Easing.ease), 
+        useNativeDriver: false, 
+      }).start();
+    }, []);
+
   return (
     <SafeAreaView>
       <View style={CommonStyles.container}>
@@ -37,19 +48,30 @@ export default ExamPage = () => {
             }} style={WordPageStyles.scrollContainer}>
               <FlatList
                 data={data}
-                numColumns={2} // Set the number of columns to 2
+                numColumns={2} 
                 renderItem={({ item }) => (
-                  <View onTouchEnd={() => Alert.alert('این گزینه هنوز فعال نشده','',[{
-                    text : 'حله'
-                  }])}
-                   style={WordPageStyles.WordItemContainer}>
+                  <Animated.View
+                    onTouchEnd={() =>
+                      Alert.alert('این گزینه هنوز فعال نشده', '', [
+                        {
+                          text: 'حله',
+                        },
+                      ])
+                    }
+                    style={{
+                      ...WordPageStyles.WordItemContainer,
+                      transform : [{
+                        translateY : fadeAnim
+                      }]
+                    }}
+                  >
                     <TouchableNativeFeedback>
                       <View style={WordPageStyles.WordItem}>
                         <Text>{item.label}</Text>
                         <Icon name={item.icon} />
                       </View>
                     </TouchableNativeFeedback>
-                  </View>
+                  </Animated.View>
                 )}
                 keyExtractor={item => item.key}
               />

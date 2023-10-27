@@ -1,14 +1,48 @@
 import { SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from "react-native"
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BottomTabBar } from "../../components/common/Tabbar";
 import { Drawer } from "../../components/common/Drawer";
 import HeaderComponent from "../../components/common/Header";
 import { CommonStyles } from "../../styles/CommonStyles";
+import * as Animatable from 'react-native-animatable';
 import { Icon } from "../../components/common/Icon";
 
-
+const animationStyles = {
+    fadeIn: 'fadeIn',
+    slideInUp: 'slideInUp',
+  };
 export default ExamPage = () => {
     const [ SideDrawerOpen , setSideDrawerOpen ] = useState(false);
+    const item1Ref = useRef();
+    const item2Ref = useRef();
+    const item3Ref = useRef();
+    const item4Ref = useRef();
+    const item5Ref = useRef();
+
+
+    useEffect(() => {
+        // You can trigger the animations in the useEffect or based on user interactions
+        animateDeafItems();
+      }, []);
+    
+      const animateDeafItems = () => {
+        // You can trigger different animations for each item
+        const animationDuration = 1000; // Animation duration in milliseconds
+    
+    
+        if (item1Ref.current) 
+          item1Ref.current.slideInUp(animationDuration);
+    
+        if (item2Ref.current) 
+          item2Ref.current.slideInUp(animationDuration + 200); // Delay the animation
+    
+        if (item3Ref.current) 
+          item3Ref.current.slideInUp(animationDuration + 400); // Delay the animation
+    
+        if (item4Ref.current) 
+          item4Ref.current.slideInUp(animationDuration + 600); // Delay the animation
+      };
+
   return (
     <SafeAreaView>
       <View style={CommonStyles.container}>
@@ -17,52 +51,70 @@ export default ExamPage = () => {
           <Drawer drawerActive={SideDrawerOpen} setSideDrawerOpen={setSideDrawerOpen} />
           </View>  }
           <View style={DeafPageStyles.deafContentContainer}>
-            <View style={DeafPageStyles.deafItemContainer}>
-            <TouchableNativeFeedback>
-                <View style={DeafPageStyles.deafItem}>
-                    <View style={DeafPageStyles.deafItemTextContainer}>
-                    <Text style={DeafPageStyles.deafItemText}>سرود ناشنوایان</Text> 
-                    </View>
-                    <Icon name={'Music'} />
-                </View>
-                </TouchableNativeFeedback>
+      <Animatable.View
+        ref={item1Ref}
+        style={DeafPageStyles.deafItemContainer}
+        animation={animationStyles.fadeIn}
+        duration={1000}
+      >
+        <TouchableNativeFeedback>
+          <Animatable.View style={DeafPageStyles.deafItem}>
+            <View style={DeafPageStyles.deafItemTextContainer}>
+              <Text style={DeafPageStyles.deafItemText}>سرود ناشنوایان</Text>
             </View>
-       
-      
-            <View style={DeafPageStyles.deafItemContainer}>
-            <TouchableNativeFeedback>
-                <View style={DeafPageStyles.deafItem}>
-                    <View style={DeafPageStyles.deafItemTextContainer}>
-                        <Text style={DeafPageStyles.deafItemText}>مکالمه</Text>
-                    </View>
-                    <Icon name={'messages'} />
-                </View>
-                </TouchableNativeFeedback>
+            <Icon name={'Music'} />
+          </Animatable.View>
+        </TouchableNativeFeedback>
+      </Animatable.View>
+
+      <Animatable.View
+        ref={item2Ref}
+        style={DeafPageStyles.deafItemContainer}
+        animation={animationStyles.fadeIn}
+        duration={1000}
+      >
+        <TouchableNativeFeedback>
+          <Animatable.View style={DeafPageStyles.deafItem}>
+            <View style={DeafPageStyles.deafItemTextContainer}>
+              <Text style={DeafPageStyles.deafItemText}>مکالمه</Text>
             </View>
-        
-            <View style={DeafPageStyles.deafItemContainer}>
-            <TouchableNativeFeedback>
-                <View style={DeafPageStyles.deafItem}>
-                    <View style={DeafPageStyles.deafItemTextContainer}>
-                        <Text style={DeafPageStyles.deafItemText}>زبان اشاره ایرانی</Text>   
-                    </View>
-                    <Icon name={'signLang'} />
-                </View>
-                </TouchableNativeFeedback>
+            <Icon name={'messages'} />
+          </Animatable.View>
+        </TouchableNativeFeedback>
+      </Animatable.View>
+
+      <Animatable.View
+        ref={item3Ref}
+        style={DeafPageStyles.deafItemContainer}
+        animation={animationStyles.fadeIn}
+        duration={1000}
+      >
+        <TouchableNativeFeedback>
+          <Animatable.View style={DeafPageStyles.deafItem}>
+            <View style={DeafPageStyles.deafItemTextContainer}>
+              <Text style={DeafPageStyles.deafItemText}>زبان اشاره ایرانی</Text>
             </View>
-            <View style={DeafPageStyles.deafItemContainer}>
-            <TouchableNativeFeedback>
-                <View style={DeafPageStyles.deafItem}>
-                    <View style={DeafPageStyles.deafItemTextContainer}>
-                        <Text style={DeafPageStyles.deafItemText}>شخصیت ها</Text>
-                    </View>
-                    <Icon name={'characters'} />
-                </View>  
-                </TouchableNativeFeedback>
+            <Icon name={'signLang'} />
+          </Animatable.View>
+        </TouchableNativeFeedback>
+      </Animatable.View>
+
+      <Animatable.View
+        ref={item4Ref}
+        style={DeafPageStyles.deafItemContainer}
+        animation={animationStyles.fadeIn}
+        duration={1000}
+      >
+        <TouchableNativeFeedback>
+          <Animatable.View style={DeafPageStyles.deafItem}>
+            <View style={DeafPageStyles.deafItemTextContainer}>
+              <Text style={DeafPageStyles.deafItemText}>شخصیت ها</Text>
             </View>
-        
-        
-      </View>
+            <Icon name={'characters'} />
+          </Animatable.View>
+        </TouchableNativeFeedback>
+      </Animatable.View>
+    </View>
       <BottomTabBar currentTab={'deaf'} />
       </View>
      

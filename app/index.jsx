@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ImageBackground , View, SafeAreaView, TextInput, Button, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, ImageBackground , View, SafeAreaView, TextInput, Button, TouchableOpacity, ActivityIndicator, Animated, Easing } from "react-native";
 import { Link } from 'expo-router'
 import HeaderComponent from "../components/common/Header";
 import { useEffect, useState } from "react";
@@ -28,6 +28,7 @@ export default function Page() {
   const [ otpSMS , setOTP ] = useState(null);
   const [ ConfirmButtonLoading , setConfirmButtonLoading ] = useState(false);
   const [ isLoggedIn , setIsLoggedIn ] = useState(false);
+  const IndexAnimation = new Animated.Value(1000);
   const [ MeData , setMeData ] = useState(null);
   useEffect(() => {
     const Authentication = async () => {
@@ -46,6 +47,17 @@ export default function Page() {
     Authentication();
     // setLoginState('PhoneNumber')
   },[isLoggedIn])
+  useEffect(() => {
+    Animated.timing(
+      IndexAnimation ,
+      {
+        toValue : 0 ,
+        duration : 1000 ,
+        // easing: Easing.ease,
+        useNativeDriver : false
+      }
+    ).start()
+  },[])
   const ConfirmPhoneNumber = async () => {
  
     if(!phoneNumber || !phoneNumber.length)
@@ -115,14 +127,18 @@ export default function Page() {
     <>
     <SafeAreaView>
       <View style={{
-        ...CommonStyles.container ,
+        ...CommonStyles.container
+        
         }}>
         <HeaderComponent setSideDrawerOpen={setSideDrawerOpen} headerText='خانه' />
         { <View style={{ position : 'absolute' , top : 0 , zIndex : 99999 }}>
           <Drawer drawerActive={SideDrawerOpen} setSideDrawerOpen={setSideDrawerOpen} />
           </View>  }
           { LoginState == 'loggedIn' ? <UserInfoForm MeData={MeData} /> 
-          : <View style={LoginForm.FormContainer}>
+          : <Animated.View style={{
+            ...LoginForm.FormContainer,
+            transform : [{ translateY : IndexAnimation }]
+            }}>
             <View style={LoginForm.InputContainer} >
              { LoginState == 'PhoneNumber' ? 
                 <TextInput maxLength={12} style={LoginForm.LoginInput} 
@@ -144,7 +160,7 @@ export default function Page() {
                     </Text>
                 }
             </TouchableOpacity>
-          </View>}
+          </Animated.View>}
       </View>
       <BottomTabBar />
         <Toast ref={(ref) => Toast.setRef(ref)} />
